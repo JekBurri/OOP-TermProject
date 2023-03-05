@@ -23,6 +23,7 @@ export default class User implements IUser {
             this.setFirstName(firstName);
             this.setLastName(lastName);
             this.setPassword(password);
+            this.setUserName(lastName.toLowerCase() + firstName.toLowerCase())
         }).catch((err) => {
             console.log(err);
         })
@@ -42,6 +43,9 @@ export default class User implements IUser {
     }
     setEmail(email: string) {
         this.email = email;
+    }
+    setUserName(userName: string) {
+        this.username = userName;
     }
 
 }
