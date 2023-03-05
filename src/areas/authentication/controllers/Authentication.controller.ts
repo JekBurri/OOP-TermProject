@@ -1,7 +1,8 @@
 import express from "express";
 import IController from "../../../interfaces/controller.interface";
 import { IAuthenticationService } from "../services";
-import { database } from "../../../model/fakeDB";
+import { posts, getUsers } from "../../../model/fakeDB";
+import IUser from "../../../interfaces/user.interface";
 
 class AuthenticationController implements IController {
   public path = "/auth";
@@ -31,8 +32,19 @@ class AuthenticationController implements IController {
   private login = (req: express.Request, res: express.Response) => {
     const email = req.body.email;
     const password = req.body.password;
-    database.users
-    console.log(req.body);
+    getUsers()
+      .then((users: IUser[]) => {
+        let userData = users.map((user: IUser) => {
+          if (user.email === email && user.password === password) {
+            return user;
+          }
+        })
+        return userData;
+      }).then((data) => {
+        if (data) {
+          res.render('post/views/posts', { posts: posts });
+        }
+      })
   };
   private registration = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 
