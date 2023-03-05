@@ -1,6 +1,7 @@
 import express from "express";
 import IController from "../../../interfaces/controller.interface";
 import { IAuthenticationService } from "../services";
+import { database } from "../../../model/fakeDB";
 
 class AuthenticationController implements IController {
   public path = "/auth";
@@ -27,9 +28,18 @@ class AuthenticationController implements IController {
   };
 
   // 🔑 These Authentication methods needs to be implemented by you
-  private login = (req: express.Request, res: express.Response) => {};
-  private registration = async (req: express.Request, res: express.Response, next: express.NextFunction) => {};
-  private logout = async (req: express.Request, res: express.Response) => {};
+  private login = (req: express.Request, res: express.Response) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    database.users
+    console.log(req.body);
+  };
+  private registration = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+
+  };
+  private logout = async (req: express.Request, res: express.Response) => {
+
+  };
 }
 
 export default AuthenticationController;
