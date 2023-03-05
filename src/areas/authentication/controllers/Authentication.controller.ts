@@ -51,7 +51,7 @@ class AuthenticationController implements IController {
 
   private registration = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     let user = new User(req.body.email, req.body.password, req.body.firstName, req.body.lastName)
-    this.service.createUser(user).then((data) => {
+    this.service.createUser(user.getUser()).then((data) => {
       getUsers().then((newUsers: IUser[]) => {
         console.log(newUsers);
       })

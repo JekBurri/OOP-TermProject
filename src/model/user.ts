@@ -48,5 +48,18 @@ export default class User implements IUser {
         this.username = userName;
     }
 
+    getUser(): IUser {
+        return {
+            id: this.id,
+            username: this.username,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+            posts: this.posts,
+            following: this.following,
+            password: this.password
+        }
+    }
+
 }
 
