@@ -2,6 +2,7 @@ import express from "express";
 import errorMiddleware from "./middleware/error.middleware";
 import Controller from "./interfaces/controller.interface";
 import dotenv from "dotenv";
+import session from "express-session";
 
 class App {
   private _app: express.Application;
@@ -28,6 +29,10 @@ class App {
 
   private initializeErrorHandling() {
     this._app.use(errorMiddleware);
+  }
+
+  private initilizeExpressSession() {
+    this._app.use(session);
   }
 
   private initializeControllers(controllers: Controller[]) {
