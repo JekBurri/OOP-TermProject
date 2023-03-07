@@ -27,9 +27,18 @@ class AuthenticationController implements IController {
   };
 
   // 🔑 These Authentication methods needs to be implemented by you
-  private login = (req: express.Request, res: express.Response) => {};
-  private registration = async (req: express.Request, res: express.Response, next: express.NextFunction) => {};
-  private logout = async (req: express.Request, res: express.Response) => {};
+  private login = (req: express.Request, res: express.Response) => {
+    console.log(req.body);
+    res.redirect('/');
+  };
+  private registration = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.log(req.body);
+    res.redirect('/');
+  };
+  private logout = async (req: express.Request, res: express.Response) => {
+    console.log(req.body);
+    res.redirect('/');
+  };
 }
 
 export default AuthenticationController;
