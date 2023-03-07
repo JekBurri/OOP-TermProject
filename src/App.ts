@@ -24,7 +24,10 @@ class App {
 
   private initializeMiddlewares() {
     require("./middleware/express.middlewares")(this._app);
+<<<<<<< HEAD
     // require("./middleware/passport.middlewares")(this._app);
+=======
+>>>>>>> feature/registerUser
   }
 
   private initializeErrorHandling() {

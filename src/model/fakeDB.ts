@@ -1,6 +1,8 @@
 import IDatabase from "../interfaces/database.interface.ts";
 
-// Please feel free to not use this, or completely change it to your liking. It is just an example.
+import IPost from "../interfaces/post.interface.js";
+import IUser from "../interfaces/user.interface.js";
+
 const database: IDatabase = {
   users: [
     {
@@ -76,7 +78,48 @@ const database: IDatabase = {
   ],
 };
 
-// -------- Note: I only created these as a simple test example for you, delete them later and use above db or your own --------------
+const getUsers = () => {
+  return new Promise((resolve, reject) => {
+    let users: IUser[] = [];
+    for (let userData of database.users) {
+      users.push(userData);
+    }
+    resolve(users);
+  })
+}
+
+const getUserById = (id: string) => {
+  return new Promise((resolve, reject) => {
+    getUsers().then((users) => {
+
+    })
+  })
+}
+
+
+const getPosts = () => {
+  return new Promise((resolve, reject) => {
+    getUsers().then((users:IUser[]) => {
+      let posts: IPost[][] = users.map((user) => {
+        return user.posts
+      })
+      posts && posts.length && resolve(posts);
+    })
+  })
+}
+
+const getPostById = (id: string) => {
+  return new Promise((resolve, reject) => {
+    getPosts().then((posts: IPost[]) => {
+      posts.forEach((post) => {
+        if (post.id === id) {
+          resolve(post);
+        }
+      })
+    }).catch((error) => { console.log(error); });
+  })
+}
+
 const userDatabase = [
   {
     id: "1",
@@ -127,4 +170,11 @@ const posts = [
   },
 ];
 
-export { userDatabase, database, post, posts };
+
+export {
+  getUsers,
+  getPosts,
+  database,
+  getPostById,
+  posts
+};
