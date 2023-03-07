@@ -15,6 +15,7 @@ class App {
     this.initializeMiddlewares();
     this.initializeControllers(controllers);
     this.initializeErrorHandling();
+    this.initilizeExpressSession();
   }
 
   public start() {
@@ -32,7 +33,10 @@ class App {
   }
 
   private initilizeExpressSession() {
-    this._app.use(session);
+    this._app.use(session({
+      secret: 'keyboard cat',
+      cookie: { secure: true }
+    }));
   }
 
   private initializeControllers(controllers: Controller[]) {

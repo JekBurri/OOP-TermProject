@@ -43,13 +43,14 @@ class AuthenticationController implements IController {
       .then((users: IUser[]) => {
         let userData = users.map((user: IUser) => {
           if (user.email === email && user.password === password) {
+            (req.session as any).email = email;
             return user;
           }
         })
         return userData;
       }).then((data) => {
         if (data) {
-          res.render('post/views/posts', { posts: posts });
+          res.render('post/views/posts', { posts: posts, session: (req.session as any).email });
         }
       })
   };
