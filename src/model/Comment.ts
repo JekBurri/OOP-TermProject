@@ -1,4 +1,4 @@
-import {User} from "./User";
+import User from "./user";
 export class Comment {
     static uniqueComment: number = 0;
     commentId: number = 3000000000000;
