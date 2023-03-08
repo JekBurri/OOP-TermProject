@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction } from "express";
 import IController from "../../../interfaces/controller.interface";
 import { IAuthenticationService } from "../services";
 import { posts, getUsers } from "../../../model/fakeDB";
@@ -35,7 +35,7 @@ class AuthenticationController implements IController {
   };
 
   // 🔑 These Authentication methods needs to be implemented by you
-  private login = (req: express.Request, res: express.Response) => {
+  private login = (req: express.Request, res: express.Response, next: NextFunction) => {
 
     const email = req.body.email;
     const password = req.body.password;
@@ -56,16 +56,19 @@ class AuthenticationController implements IController {
   };
 
   private registration = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    let user = new User(req.body.email, req.body.password, req.body.firstName, req.body.lastName)
-    this.service.createUser(user.getUser()).then((data) => {
-      getUsers().then((newUsers: IUser[]) => {
-        console.log(newUsers);
-      })
-      res.render('post/views/posts', { posts: posts })
-    });
+    let user = new User(req.body.email, req.body.password, req.body.firstName, req.body.lastName);
+    (req.session as any).email = req.body.email;
+    this.service.createUser(user)
+      .then((data) => {
+        getUsers().then((newUsers: IUser[]) => {
+        })
+        res.render('post/views/posts', { posts: posts })
+      });
   };
-  private logout = async (req: express.Request, res: express.Response) => {
-    res.redirect("/")
+  private logout = async (req: express.Request, res: express.Response, next: NextFunction) => {
+    (req.session as any).email = null;
+    res.clearCookie('connect.sid');
+    res.redirect('/')
   };
 }
 

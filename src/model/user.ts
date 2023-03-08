@@ -5,7 +5,7 @@ import { getUsers } from "./fakeDB";
 export default class User implements IUser {
     id: string;
     username: string;
-    email: string;
+    public email: string;
     password: string;
     firstName: string;
     lastName: string;

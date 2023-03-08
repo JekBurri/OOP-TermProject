@@ -2,7 +2,6 @@ import express from "express";
 import errorMiddleware from "./middleware/error.middleware";
 import Controller from "./interfaces/controller.interface";
 import dotenv from "dotenv";
-import session from "express-session";
 
 class App {
   private _app: express.Application;
@@ -15,7 +14,6 @@ class App {
     this.initializeMiddlewares();
     this.initializeControllers(controllers);
     this.initializeErrorHandling();
-    this.initilizeExpressSession();
   }
 
   public start() {
@@ -30,13 +28,6 @@ class App {
 
   private initializeErrorHandling() {
     this._app.use(errorMiddleware);
-  }
-
-  private initilizeExpressSession() {
-    this._app.use(session({
-      secret: 'keyboard cat',
-      cookie: { secure: true }
-    }));
   }
 
   private initializeControllers(controllers: Controller[]) {

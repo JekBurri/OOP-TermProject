@@ -176,5 +176,6 @@ export {
   getPosts,
   database,
   getPostById,
-  posts
+  posts,
+  post
 };
