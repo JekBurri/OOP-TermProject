@@ -1,40 +1,27 @@
 Breakdown of Work:
 
-Example below:
-March 9th (First Sprint Complete)
-Amy Chan:
-I worked on the following tasks:
+February 28th 
+Jack: 
 
-1. <Insert Some Task Here> - This task is responsible for xyz functionality.
-2. <Insert Some Task Here> - This task is responsible for xyz functionality.
-3. <Insert Some Task Here> - This task is responsible for xyz functionality.
+1. Researched Planetscale and Prisma setup
+2. created User, Post, and Comment class
+3. removed passport
 
-I also needed to research on Youtube and Google the following things:
+Paarth:
 
-1. <Insert Video or Link to thing you needed to research>
+1. Researched Planetscale and Prisma setup
+2. removed passport
+3. Worked out POST and GET for the login/registration and fixed a href links
 
-John Chen:
-I worked on the following tasks:
+March 7th 
 
-1. <Insert Some Task Here> - This task is responsible for xyz functionality.
-2. <Insert Some Task Here> - This task is responsible for xyz functionality.
-3. <Insert Some Task Here> - This task is responsible for xyz functionality.
+Jack: 
 
-March 16th (Second Sprint Complete)
-Amy Chan:
-I worked on the following tasks:
+1. Integrated Prisma with Planetscale DB
+2. Created schemas for the 3 tables User, Comment, and Post
 
-1. <Insert Some Task Here> - This task is responsible for xyz functionality.
-2. <Insert Some Task Here> - This task is responsible for xyz functionality.
-3. <Insert Some Task Here> - This task is responsible for xyz functionality.
+Paarth:
 
-I also needed to research on Youtube and Google the following things:
+1. Implemented Bcrypt
+2. Implemented Express Session
 
-1. <Insert Video or Link to thing you needed to research>
-
-John Chen:
-I worked on the following tasks:
-
-1. <Insert Some Task Here> - This task is responsible for xyz functionality.
-2. <Insert Some Task Here> - This task is responsible for xyz functionality.
-3. <Insert Some Task Here> - This task is responsible for xyz functionality.
