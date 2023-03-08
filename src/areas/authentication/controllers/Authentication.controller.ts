@@ -44,16 +44,11 @@ class AuthenticationController implements IController {
         users.map((user: IUser) => {
           if (user.email === email) {
             bcrypt.compare(password, user.password)
-              .then((result) => {
-                if (result) {
-                  return user;
-                }
-              }).then((data) => {
-                if (data) {
-                  res.render('post/views/posts', { posts: posts, session: (req.session as any).email });
-                } else {
-                  res.render("authentication/views/login", { error: "Incorrect credentials!!" });
-                }
+              .then((result) => result && user)
+              .then((data) => {
+                (data)
+                  ? res.render('post/views/posts', { posts: posts, session: (req.session as any).email })
+                  : res.render("authentication/views/login", { error: "Incorrect credentials!!" });
               })
           }
         })
