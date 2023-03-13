@@ -2,11 +2,17 @@ import express from "express";
 import errorMiddleware from "./middleware/error.middleware";
 import Controller from "./interfaces/controller.interface";
 import dotenv from "dotenv";
-import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient()
+import Prisma from '@prisma/client';
+
+const { PrismaClient } = Prisma;
+const prisma = new PrismaClient();
+
 // use `prisma` in your application to read and write data in your DB - [4. and 5.]
 // https://www.prisma.io/docs/concepts/components/prisma-client
+
+// console.log(prisma.user.findMany());
+
 
 class App {
   private _app: express.Application;

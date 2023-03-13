@@ -4,7 +4,7 @@ import { IAuthenticationService } from "../services";
 import { posts, getUsers } from "../../../model/fakeDB";
 import IUser from "../../../interfaces/user.interface";
 import User from "../../../model/user";
-
+import { AuthenticationService } from "../services";
 
 class AuthenticationController implements IController {
   public path = "/auth";
