@@ -2,6 +2,12 @@ import IPost from "../interfaces/post.interface";
 import IUser from "../interfaces/user.interface";
 import { getUsers } from "./fakeDB";
 
+import { PrismaClient } from "@prisma/client";
+import Prisma from '@prisma/client';
+const prisma = new PrismaClient();
+
+
+
 export default class User implements IUser {
     id: string;
     username: string;
@@ -13,20 +19,11 @@ export default class User implements IUser {
     following?: string[];
 
     constructor(email, password, firstName, lastName) {
-        getUsers().then((users: IUser[]) => {
-            let id = "1";
-            if (users) {
-                id = String(parseInt(users[users.length - 1].id) + 1);
-            }
-            this.setId(id);
-            this.setEmail(email);
-            this.setFirstName(firstName);
-            this.setLastName(lastName);
-            this.setPassword(password);
-            this.setUserName(lastName.toLowerCase() + firstName.toLowerCase())
-        }).catch((err) => {
-            console.log(err);
-        })
+        this.setEmail(email);
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setPassword(password);
+        this.setUserName(lastName.toLowerCase() + firstName.toLowerCase())
     }
 
     setId(id: string) {

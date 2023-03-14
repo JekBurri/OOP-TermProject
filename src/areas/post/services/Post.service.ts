@@ -1,27 +1,77 @@
 import IPost from "../../../interfaces/post.interface";
 import IPostService from "./IPostService";
+import Prisma from '@prisma/client';
+
+const { PrismaClient } = Prisma;
+const prisma = new PrismaClient();
 
 // ❗️ Implement this class much later, once everything works fine with your mock db
 export class PostService implements IPostService {
-  addPost(post: IPost, username: string): void {
-    // 🚀 Implement this yourself.
-    throw new Error("Method not implemented.");
+  async addPost(post: IPost): Promise<IPost> {
+    try {
+      const newPost = await prisma.post.create({
+        data: {
+          createdAt: Date(),
+          message: post.message,
+          userId: post.userId,
+          comments: null,
+          likes: 0,
+        }
+      })
+      return newPost;
+    } catch (error) {
+      console.log(error);
+    }
   }
-  getAllPosts(username: string): IPost[] {
-    // 🚀 Implement this yourself.
-    throw new Error("Method not implemented.");
+  async getAllPosts(): Promise<IPost[]> {
+    try {
+      const posts = await prisma.post.findMany({
+        where: {
+          
+        }
+      })
+      return posts;
+    } catch (error) {
+      console.log(error);
+    }
   }
-  findById(id: string): IPost {
-    // 🚀 Implement this yourself.
-    throw new Error("Method not implemented.");
+  async findById(id: string): Promise<IPost> {
+    try {
+      const post = await prisma.post.findFirst({
+        where: {
+          id: id
+        }
+      })
+      return post;
+    } catch (error) {
+      console.log(error);
+    }
   }
-  addCommentToPost(message: { id: string; createdAt: string; userId: string; message: string }, postId: string): void {
-    // 🚀 Implement this yourself.
-    throw new Error("Method not implemented.");
+  async addCommentToPost(message: { userId: string; message: string }, postId: string): Promise<void> {
+    try {
+      const comment = await prisma.comment.create({
+        data: {
+          userId: message.userId,
+          message: message.message,
+          createdAt: Date(),
+          postId: postId
+        }
+      })
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  sortPosts(posts: IPost[]): IPost[] {
-    // 🚀 Implement this yourself.
-    throw new Error("Method not implemented.");
+  async sortPosts(posts: IPost[]): Promise<IPost[]> {
+    try {
+      const posts = await prisma.post.findMany({
+        orderBy: {
+          id: 'asc'
+        }
+      })
+      return posts;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

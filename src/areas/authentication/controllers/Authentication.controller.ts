@@ -4,15 +4,14 @@ import { IAuthenticationService } from "../services";
 import { posts, getUsers } from "../../../model/fakeDB";
 import IUser from "../../../interfaces/user.interface";
 import User from "../../../model/user";
-import { AuthenticationService } from "../services";
+import { AuthenticationService } from "../services/Authentication.service"
 
 class AuthenticationController implements IController {
   public path = "/auth";
   public router = express.Router();
+  public service:IAuthenticationService = new AuthenticationService();
 
-  private service: IAuthenticationService;
-  constructor(service: IAuthenticationService) {
-    this.service = service;
+  constructor() {
     this.initializeRoutes();
   }
 

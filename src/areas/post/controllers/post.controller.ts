@@ -3,6 +3,11 @@ import IController from "../../../interfaces/controller.interface";
 import IPostService from "../services/IPostService";
 import { post, posts } from "../../../model/fakeDB";
 
+import Prisma from '@prisma/client';
+
+const { PrismaClient } = Prisma;
+const prisma = new PrismaClient();
+
 class PostController implements IController {
   public path = "/posts";
   public router = Router();
@@ -20,19 +25,75 @@ class PostController implements IController {
   }
 
   // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary posts object
-  private getAllPosts = (_: Request, res: Response) => {
-    res.render("post/views/posts", { posts });
+  private getAllPosts = async (req: Request, res: Response) => {
+    try {
+      const posts = await prisma.post.findMany({
+        where: {
+          
+        }
+      })
+      res.render("post/views/posts", { posts });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary post object
-  private getPostById = async (request: Request, res: Response, next: NextFunction) => {
-    res.render("post/views/post", { post });
+  private getPostById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const post = await prisma.post.findFirst({
+        where: {
+          id: req.body.postId
+        }
+      })
+      res.render("post/views/post", { post });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // 🚀 These post methods needs to be implemented by you
-  private createComment = async (req: Request, res: Response, next: NextFunction) => {};
-  private createPost = async (req: Request, res: Response, next: NextFunction) => {};
-  private deletePost = async (req: Request, res: Response, next: NextFunction) => {};
+  private createComment = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await prisma.comment.create({
+        data: {
+          createdAt: Date(),
+          message: req.body.message,
+          postId: req.body.postId
+        }
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  private createPost = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await prisma.post.create({
+        data: {
+          createdAt: Date(),
+          message: req.body.message,
+          userId: req.body.userId,
+          comments: null,
+          likes: 0,
+        }
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  private deletePost = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await prisma.post.delete({
+        where: {
+          id: req.body.postId
+        }
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 
 export default PostController;

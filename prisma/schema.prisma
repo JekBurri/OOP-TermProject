@@ -15,7 +15,7 @@ model User {
   password  String
   email     String @unique
   username  String
-
+  comments  Comment[]
   @@map("user")
 }
 
@@ -32,10 +32,12 @@ model Post {
 
 model Comment {
   id        String   @id @default(uuid())
+  userId    String
   message   String
   createdAt DateTime
   postId    String
   fkPost    Post     @relation(fields: [postId], references: [id])
+  fkUser    User     @relation(fields: [userId], references: [id])
 
   @@map("comment")
 }
