@@ -73,6 +73,3 @@ Paarth:
 
 1. Handled EJS using updated prisma services
 2. fixed post requests
-
-
->>>>>>> 1e1a2985cb299b9da523893d11ab7dfb429ad13c
