@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction, Router } from "express";
 import IController from "../../../interfaces/controller.interface";
 import IPostService from "../services/IPostService";
-import { post, posts } from "../../../model/fakeDB";
 import { PostService } from "../services";
-const service = new PostService();
 
 import Prisma from '@prisma/client';
 
@@ -13,6 +11,7 @@ const prisma = new PrismaClient();
 class PostController implements IController {
   public path = "/posts";
   public router = Router();
+  public service: IPostService = new PostService();
 
   constructor() {
     this.initializeRoutes();
@@ -29,8 +28,9 @@ class PostController implements IController {
   // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary posts object
   private getAllPosts = async (req: Request, res: Response) => {
     try {
-      service.getAllPosts()
+      this.service.getAllPosts()
         .then((posts) => {
+          console.log(posts);
           res.render("post/views/posts", { posts });
         })
     } catch (error) {
@@ -41,7 +41,7 @@ class PostController implements IController {
   // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary post object
   private getPostById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      service.findById(req.params.id)
+      this.service.findById(req.params.id)
         .then((post) => {
           res.render("post/views/post", { post });
         })
@@ -58,15 +58,15 @@ class PostController implements IController {
         message: req.body.message
       }
       const postId = req.body.postId;
-      service.addCommentToPost(message, postId);
+      this.service.addCommentToPost(message, postId);
     } catch (error) {
       console.log(error);
     }
   };
-  
+
   private createPost = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      service.addPost(req.body);
+      this.service.addPost(req.body);
     } catch (error) {
       console.log(error);
     }

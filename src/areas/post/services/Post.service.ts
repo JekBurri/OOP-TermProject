@@ -24,11 +24,7 @@ export class PostService implements IPostService {
   }
   async getAllPosts(): Promise<IPost[]> {
     try {
-      const posts = await prisma.post.findMany({
-        where: {
-          
-        }
-      })
+      const posts = await prisma.post.findMany()
       return posts;
     } catch (error) {
       console.log(error);
