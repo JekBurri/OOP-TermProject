@@ -2,6 +2,8 @@ import { Request, Response, NextFunction, Router } from "express";
 import IController from "../../../interfaces/controller.interface";
 import IPostService from "../services/IPostService";
 import { post, posts } from "../../../model/fakeDB";
+import { PostService } from "../services";
+const service = new PostService();
 
 import Prisma from '@prisma/client';
 
@@ -12,7 +14,7 @@ class PostController implements IController {
   public path = "/posts";
   public router = Router();
 
-  constructor(postService: IPostService) {
+  constructor() {
     this.initializeRoutes();
   }
 
@@ -27,12 +29,10 @@ class PostController implements IController {
   // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary posts object
   private getAllPosts = async (req: Request, res: Response) => {
     try {
-      const posts = await prisma.post.findMany({
-        where: {
-          
-        }
-      })
-      res.render("post/views/posts", { posts });
+      service.getAllPosts()
+        .then((posts) => {
+          res.render("post/views/posts", { posts });
+        })
     } catch (error) {
       console.log(error);
     }
@@ -41,12 +41,10 @@ class PostController implements IController {
   // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary post object
   private getPostById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const post = await prisma.post.findFirst({
-        where: {
-          id: req.body.postId
-        }
-      })
-      res.render("post/views/post", { post });
+      service.findById(req.params.id)
+        .then((post) => {
+          res.render("post/views/post", { post });
+        })
     } catch (error) {
       console.log(error);
     }
@@ -55,13 +53,12 @@ class PostController implements IController {
   // 🚀 These post methods needs to be implemented by you
   private createComment = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await prisma.comment.create({
-        data: {
-          createdAt: Date(),
-          message: req.body.message,
-          postId: req.body.postId
-        }
-      })
+      const message = {
+        userId: req.params.userId,
+        message: req.body.message
+      }
+      const postId = req.body.postId;
+      service.addCommentToPost(message, postId);
     } catch (error) {
       console.log(error);
     }
@@ -69,15 +66,7 @@ class PostController implements IController {
   
   private createPost = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await prisma.post.create({
-        data: {
-          createdAt: Date(),
-          message: req.body.message,
-          userId: req.body.userId,
-          comments: null,
-          likes: 0,
-        }
-      })
+      service.addPost(req.body);
     } catch (error) {
       console.log(error);
     }
