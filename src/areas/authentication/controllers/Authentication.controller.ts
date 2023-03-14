@@ -78,7 +78,7 @@ class AuthenticationController implements IController {
 
 
   private logout = async (req: express.Request, res: express.Response, next: NextFunction) => {
-    (req.session as any).email = null;
+    (req.session as any).user = null;
     res.clearCookie('connect.sid');
     res.redirect('/')
   };
