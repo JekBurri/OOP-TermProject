@@ -1,3 +1,9 @@
 node_modules
 .DS_Store
+<<<<<<< HEAD
 error.log
+=======
+.env
+error.log
+.git
+>>>>>>> 1e1a2985cb299b9da523893d11ab7dfb429ad13c
