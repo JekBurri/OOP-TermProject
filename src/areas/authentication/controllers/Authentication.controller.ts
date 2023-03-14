@@ -43,8 +43,9 @@ class AuthenticationController implements IController {
           .then((result) => result && user)
           .then((data) => {
             if (data) {
+              (req.session as any).user = data;
               this.postService.getAllPosts().then((posts) => {
-                res.render('post/views/posts', { posts: posts, session: (req.session as any).email, user: data })
+                res.render('post/views/posts', { posts: posts, session: (req.session as any).user, user: data })
               })
             } else {
               res.render("authentication/views/login", { error: "Incorrect credentials!!" });
@@ -63,9 +64,9 @@ class AuthenticationController implements IController {
     sendService.then((service: any) => {
       bcrypt.hash(req.body.password, 12, function (err, hash) {
         let user = new User(req.body.email, hash, req.body.firstName, req.body.lastName);
-        (req.session as any).email = req.body.email;
         service.userService.createUser(user)
-          .then((data) => {
+        .then((data) => {
+            (req.session as any).user = data;
             service.postService.getAllPosts().then((posts) => {
               res.render('post/views/posts', { posts: posts, user: data })
             })

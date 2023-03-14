@@ -20,7 +20,7 @@ class PostController implements IController {
   private initializeRoutes() {
     this.router.get(this.path, this.getAllPosts);
     this.router.get(`${this.path}/:id`, this.getPostById);
-    this.router.get(`${this.path}/:id/delete`, this.deletePost);
+    this.router.post(`${this.path}/:id/delete`, this.deletePost);
     this.router.post(`${this.path}/:id/comment`, this.createComment);
     this.router.post(`${this.path}`, this.createPost);
   }
@@ -31,7 +31,7 @@ class PostController implements IController {
       this.service.getAllPosts()
         .then((posts) => {
           console.log(posts);
-          res.render("post/views/posts", { posts });
+          res.render("post/views/posts", { posts: posts, user: (req.session as any).user });
         })
     } catch (error) {
       console.log(error);
@@ -40,6 +40,8 @@ class PostController implements IController {
 
   // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary post object
   private getPostById = async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.params.id);
+    console.log("asd");
     try {
       this.service.findById(req.params.id)
         .then((post) => {
