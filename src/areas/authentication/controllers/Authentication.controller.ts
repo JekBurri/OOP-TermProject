@@ -11,7 +11,7 @@ import bcrypt from 'bcrypt';
 class AuthenticationController implements IController {
   public path = "/auth";
   public router = express.Router();
-  public service:IAuthenticationService = new AuthenticationService();
+  public service: IAuthenticationService = new AuthenticationService();
 
   constructor() {
     this.initializeRoutes();
@@ -39,23 +39,24 @@ class AuthenticationController implements IController {
   private login = (req: express.Request, res: express.Response, next: NextFunction) => {
     const email = req.body.email;
     const password = req.body.password;
-    this.service.getUserByEmailAndPassword(email, password)
-      .then((user) => {
-        bcrypt.compare(req.body.getUserByEmailAndPassword, user.password)
-                  .then((result) => result && user)
-                  .then((data) => {
-                    (data)
-                      ? res.render('post/views/posts', { posts: posts, session: (req.session as any).email })
-                      : res.render("authentication/views/login", { error: "Incorrect credentials!!" });
-                  })
-      })
+    this.service.findUserByEmail(email).then((user) => {
+      user ?
+        bcrypt.compare(req.body.password, user.password)
+          .then((result) => result && user)
+          .then((data) => {
+            (data)
+              ? res.render('post/views/posts', { posts: posts, session: (req.session as any).email })
+              : res.render("authentication/views/login", { error: "Incorrect credentials!!" });
+          })
+        : res.render("authentication/views/login", { error: "Incorrect credentials!!" });
+    })
   };
 
   private registration = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    let sendService = new Promise<any>((resolve:any,reject:any)=>{
+    let sendService = new Promise<any>((resolve: any, reject: any) => {
       resolve(this.service);
     })
-    sendService.then((service:any)=>{
+    sendService.then((service: any) => {
       bcrypt.hash(req.body.password, 12, function (err, hash) {
         let user = new User(req.body.email, hash, req.body.firstName, req.body.lastName);
         (req.session as any).email = req.body.email;
@@ -63,7 +64,7 @@ class AuthenticationController implements IController {
           .then((data) => {
             console.log(data);
             res.render('post/views/posts', { posts: posts })
-        });
+          });
       });
     })
   }
