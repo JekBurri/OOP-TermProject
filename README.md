@@ -25,3 +25,15 @@ Paarth:
 1. Implemented Bcrypt
 2. Implemented Express Session
 
+March 13th 
+Jack: 
+
+1. Created Post and Comment functionality with Prisma in the Controller + Service
+2. Fixed Comment schema, adding in foreign key to userId from User schema
+
+Paarth:
+
+1. Handled EJS using updated prisma services
+2. fixed post requests
+
+
