@@ -3,9 +3,9 @@ import IController from "../../../interfaces/controller.interface";
 import IPostService from "../services/IPostService";
 import { post, posts } from "../../../model/fakeDB";
 import { PostService } from "../services";
-const service = new PostService();
 
 import Prisma from '@prisma/client';
+import IPost from "../../../interfaces/post.interface";
 
 const { PrismaClient } = Prisma;
 const prisma = new PrismaClient();
@@ -13,7 +13,8 @@ const prisma = new PrismaClient();
 class PostController implements IController {
   public path = "/posts";
   public router = Router();
-
+  public service = new PostService();
+  
   constructor() {
     this.initializeRoutes();
   }
@@ -21,7 +22,7 @@ class PostController implements IController {
   private initializeRoutes() {
     this.router.get(this.path, this.getAllPosts);
     this.router.get(`${this.path}/:id`, this.getPostById);
-    this.router.get(`${this.path}/:id/delete`, this.deletePost);
+    this.router.post(`${this.path}/:id/delete`, this.deletePost);
     this.router.post(`${this.path}/:id/comment`, this.createComment);
     this.router.post(`${this.path}`, this.createPost);
   }
@@ -29,7 +30,7 @@ class PostController implements IController {
   // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary posts object
   private getAllPosts = async (req: Request, res: Response) => {
     try {
-      service.getAllPosts()
+      this.service.getAllPosts()
         .then((posts) => {
           res.render("post/views/posts", { posts });
         })
@@ -41,7 +42,7 @@ class PostController implements IController {
   // 🚀 This method should use your postService and pull from your actual fakeDB, not the temporary post object
   private getPostById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      service.findById(req.params.id)
+      this.service.findById(req.params.id)
         .then((post) => {
           res.render("post/views/post", { post });
         })
@@ -58,7 +59,7 @@ class PostController implements IController {
         message: req.body.message
       }
       const postId = req.body.postId;
-      service.addCommentToPost(message, postId);
+      this.service.addCommentToPost(message, postId);
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +67,14 @@ class PostController implements IController {
   
   private createPost = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      service.addPost(req.body);
+      let newPost:IPost = {
+        message: req.body.postText,
+        userId: (req.session as any).user.id,
+        createdAt: new Date() as any,
+        likes: 0
+      }
+      this.service.addPost(newPost);
+      res.redirect('/posts');
     } catch (error) {
       console.log(error);
     }
@@ -76,9 +84,10 @@ class PostController implements IController {
     try {
       await prisma.post.delete({
         where: {
-          id: req.body.postId
+          id: req.body.postToDelete
         }
       })
+      res.redirect('/posts');
     } catch (error) {
       console.log(error);
     }

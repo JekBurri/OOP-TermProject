@@ -179,15 +179,15 @@
               <div class="flex justify-between">
                 <div>
                   <span class="font-bold"><a href="#" class="text-black">
-                      <%= post.userId %>
+                      <%= post.userId%>
                     </a></span>
                   <span class="text-grey-dark">&middot;</span>
                   <span class="text-grey-dark">
                     <%= post.createdAt %>
                   </span>
                   <span class="inline-block">
-                    <form action="/delete" method="post">
-                      <input type="hidden" value="<%= post.postId %>" name="postToDelete" />
+                    <form action="/posts/<%= post.id %>/delete" method="post">
+                      <input type="hidden" value="<%= post.id %>" name="postToDelete" />
                       <button type="submit"><i
                           class="transition duration-500 ease-in-out hover:bg-gray-300 transform p-5 rounded-full fa fa-trash"></i></button>
                     </form>
@@ -203,10 +203,9 @@
                   </p>
                 </div>
                 <div class="pb-2">
-                  <span class="mr-8"><a href="/posts/<%= post.postId %>"
+                  <span class="mr-8"><a href="/posts/<%= post.id %>"
                       class="text-grey-dark hover:no-underline hover:text-blue-light"><i
                         class="fa fa-comment fa-lg mr-2"></i>
-                      <%= post.commentList.length %>
                     </a></span>
                   <span class="mr-8"><a href="#" class="text-grey-dark hover:no-underline hover:text-red"><i
                         class="fa fa-heart fa-lg mr-2"></i>
