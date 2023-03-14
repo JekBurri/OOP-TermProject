@@ -15,7 +15,8 @@ model User {
   password  String
   email     String @unique
   username  String
-  comments  Comment[]
+  // comments  Comment[]
+
   @@map("user")
 }
 
@@ -25,19 +26,19 @@ model Post {
   userId    String
   createdAt DateTime
   likes     Int?
-  comments  Comment[]
+  // comments  Comment[]
 
   @@map("post")
 }
 
 model Comment {
   id        String   @id @default(uuid())
+  // user      User     @relation(fields: [userId], references: [id])
   userId    String
   message   String
   createdAt DateTime
+  // post      Post     @relation(fields: [postId], references: [id])
   postId    String
-  fkPost    Post     @relation(fields: [postId], references: [id])
-  fkUser    User     @relation(fields: [userId], references: [id])
 
   @@map("comment")
 }

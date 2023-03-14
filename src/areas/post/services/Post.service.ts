@@ -14,8 +14,7 @@ export class PostService implements IPostService {
           createdAt: Date(),
           message: post.message,
           userId: post.userId,
-          comments: null,
-          likes: 0,
+          likes: 0
         }
       })
       return newPost;

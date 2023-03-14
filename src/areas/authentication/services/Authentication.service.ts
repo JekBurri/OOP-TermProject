@@ -12,7 +12,7 @@ export class AuthenticationService implements IAuthenticationService {
   async findUserByEmail(email: string): Promise<IUser> {
     try {
       const user = await prisma.user.findFirst({
-        where: {email: email}
+        where: {email: email},
       });
       return user;
     } catch (error) {

@@ -6,7 +6,7 @@ import { PostService } from "./areas/post/services";
 
 const server = new App([
   new LandingController(),
-  new PostController(new PostService()),
+  new PostController(),
   new AuthenticationController(),
 ]);
 
