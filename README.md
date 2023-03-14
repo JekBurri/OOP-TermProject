@@ -26,6 +26,7 @@ Paarth:
 2. Implemented Express Session
 
 March 13th 
+
 Jack: 
 
 1. Created Post and Comment functionality with Prisma in the Controller + Service
