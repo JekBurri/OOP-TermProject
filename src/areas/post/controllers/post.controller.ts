@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction, Router } from "express";
 import IController from "../../../interfaces/controller.interface";
 import IPostService from "../services/IPostService";
-import { post, posts } from "../../../model/fakeDB";
 import { PostService } from "../services";
 
 import Prisma from '@prisma/client';
@@ -32,6 +31,7 @@ class PostController implements IController {
     try {
       this.service.getAllPosts()
         .then((posts) => {
+          console.log(posts);
           res.render("post/views/posts", { posts });
         })
     } catch (error) {
@@ -64,7 +64,7 @@ class PostController implements IController {
       console.log(error);
     }
   };
-  
+
   private createPost = async (req: Request, res: Response, next: NextFunction) => {
     try {
       let newPost:IPost = {

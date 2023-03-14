@@ -1,12 +1,10 @@
 import express, { NextFunction } from "express";
 import IController from "../../../interfaces/controller.interface";
 import { AuthenticationService, IAuthenticationService } from "../services";
-import { posts, getUsers } from "../../../model/fakeDB";
 import IUser from "../../../interfaces/user.interface";
 import User from "../../../model/user";
-
-import bcrypt from 'bcrypt';
 import { PostService } from "../../../areas/post/services";
+import bcrypt from 'bcrypt';
 import IPostService from "../../../areas/post/services/IPostService";
 
 
@@ -26,7 +24,6 @@ class AuthenticationController implements IController {
     this.router.post(`${this.path}/login`, this.login);
     this.router.post(`${this.path}/logout`, this.logout);
     this.router.post(`${this.path}/logout`, this.logout);
-
   }
 
   private showLoginPage = (_: express.Request, res: express.Response) => {

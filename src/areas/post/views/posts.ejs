@@ -126,22 +126,29 @@
               <div @click.away="isOpen = false" x-show.transition.opacity="isOpen"
                 class="z-50 absolute mt-3 transform -translate-x-full bg-white rounded-md shadow-lg min-w-max">
                 <div class="flex flex-col p-4 space-y-1 font-medium border-b">
-                  <span class="text-gray-800">John Doe</span>
-                  <span class="text-sm text-gray-400">john.doe@gmail.com</span>
+                  <% if(user) { %>
+                    <span class="text-gray-800">
+                      <%= user.firstName%>
+                        <%= user.lastName%>
+                    </span>
+                    <span class="text-sm text-gray-400">
+                      <%=user.email %>
+                    </span>
                 </div>
-                <ul class="flex flex-col p-2 my-2 space-y-1">
-                  <li>
-                    <a href="#"
-                      class="block px-2 py-1 transition no-underline rounded-md hover:bg-gray-100">Settings</a>
-                  </li>
-                  <li>
-                    <form action="/auth/logout" method="post">
-                      <button type="submit">
-                        logout
-                      </button>
-                    </form>
-                  </li>
-                </ul>
+                <% } %>
+                  <ul class="flex flex-col p-2 my-2 space-y-1">
+                    <li>
+                      <a href="#"
+                        class="block px-2 py-1 transition no-underline rounded-md hover:bg-gray-100">Settings</a>
+                    </li>
+                    <li>
+                      <form action="/auth/logout" method="post">
+                        <button type="submit">
+                          logout
+                        </button>
+                      </form>
+                    </li>
+                  </ul>
               </div>
             </div>
           </div>
