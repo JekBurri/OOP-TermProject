@@ -11,7 +11,7 @@ export class PostService implements IPostService {
     try {
       const newPost = await prisma.post.create({
         data: {
-          createdAt: new Date(),
+          createdAt: new Date() as any,
           message: post.message,
           userId: post.userId,
           likes: 0

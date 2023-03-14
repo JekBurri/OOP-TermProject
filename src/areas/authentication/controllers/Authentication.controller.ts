@@ -43,6 +43,7 @@ class AuthenticationController implements IController {
           .then((result) => result && user)
           .then((data) => {
             if (data) {
+              (req.session as any).user = data;
               this.postService.getAllPosts().then((posts) => {
                 (req.session as any).user = data;
                 res.render('post/views/posts', { posts: posts, session: (req.session as any).user, user: data })
